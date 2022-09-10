@@ -4,8 +4,8 @@ import hello.hellospring.domain.Member;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
-
-@Repository
+// JPA 를 사용하면 객체를 바로 DB에 저장할 수 있다.
+//@Repository
 public class MemoryMemberRepository implements MemberRepository{
 
     private static Map<Long,Member> store = new HashMap<>();

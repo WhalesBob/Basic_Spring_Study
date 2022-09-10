@@ -1,15 +1,20 @@
 package hello.hellospring.controller;
 
+import hello.hellospring.domain.Member;
 import hello.hellospring.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Controller // 해당 Annotation 을 보고, Spring 이 실행될 때 이 Controller 를 객체로써
 public class MemberController { // 생성하여 Spring 이 들고 있는 것이다.
     // Spring Container 에서 Spring Bean 이 관리된다고 표현되기도 한다.
 
     /*private final MemberService memberService = new MemberService();*/
-
 
     // new 로 생성해서 쓸수 있지만, Spring 이 관리하게 되면, Spring Container 에 등록하고
     // Spring Container 로부터 받아서 사용할 수 있도록 관리해야 한다!
@@ -66,5 +71,25 @@ public class MemberController { // 생성하여 Spring 이 들고 있는 것이�
     // 같은 Spring Bean 이면 모두 같은 객체이다. 정말 특수한 케이스로, 설정에서 이렇게 안되게 할 수 있지만,
     // 거의 사용되지는 않는다.
 
+    @GetMapping("/members/new")
+    public String createForm(){
+        return "members/createMemberForm";
+    }
 
+    @PostMapping("/members/new")
+    public String create(MemberForm form){
+        Member member = new Member();
+        member.setName(form.getName());
+
+        memberService.join(member);
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/members")
+    public String list(Model model){
+        List<Member> members = memberService.findMembers();
+        model.addAttribute("members",members);
+        return "members/memberList";
+    }
 }
