@@ -5,6 +5,7 @@ import hello.hellospring.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Transactional
+@WebAppConfiguration
 class MemberServiceIntegrationTest {
 
     // 통합형에서는 Spring 에게 memberService, memberRepository 내놓으라고 해야 한다.
@@ -27,12 +29,11 @@ class MemberServiceIntegrationTest {
     // 갖다쓰기만 하면 되는 개념이다.
     // 그래서 그냥 Field Injection 으로 해주면 끝.
 
-
     @Test
     void 회원가입() {
         // given
         Member member = new Member();
-        member.setName("hello");
+        member.setName("spring100");
 
         // when
         Long saveID = memberService.join(member);
